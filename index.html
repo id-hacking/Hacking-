@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Selection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #f0f0f0; }
+        .topbar {
+            background: linear-gradient(to right, red, green);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+        .topbar input {
+            flex: 1;
+            margin: 0 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+        .container {
+            padding: 10px;
+        }
+        .dropdown {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .logo-preview img {
+            width: 30px;
+            height: 30px;
+        }
+        .hidden { display: none; }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: green;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .scanner img {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="topbar">
+        <div>☰</div>
+        <input type="text" placeholder="Search..." />
+        <div onclick="toggleAccount()">👤</div>
+    </div>
+
+    <div class="container">
+        <select class="dropdown" onchange="selectService(this.value)">
+            <option value="">-- Select Service --</option>
+            <option value="Google">Google</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Telegram">Telegram</option>
+        </select>
+
+        <div class="logo-preview hidden" id="logoBox">
+            <img id="serviceLogo" src="" alt="Logo">
+            <span id="serviceName"></span>
+        </div>
+
+        <input type="text" id="userInput" placeholder="Enter your ID" />
+        <p id="hintText">Enter the ID you have hacked</p>
+        <button onclick="goToPayment()">Continue</button>
+
+        <div class="scanner hidden" id="scannerBox">
+            <img id="scannerImage" src="" alt="Scanner" />
+            <p id="priceText"></p>
+        </div>
+
+        <div class="footer">its help u</div>
+    </div>
+
+    <script>
+        const prices = {
+            Google: { price: 250, logo: 'google.png' },
+            Instagram: { price: 200, logo: 'instagram.png' },
+            Facebook: { price: 250, logo: 'facebook.png' },
+            WhatsApp: { price: 300, logo: 'whatsapp.png' },
+            Telegram: { price: 300, logo: 'telegram.png' }
+        };
+
+        function toggleAccount() {
+            alert("Account info: dummy@example.com");
+        }
+
+        let selectedService = "";
+
+        function selectService(service) {
+            if (!service) return;
+
+            selectedService = service;
+            const info = prices[service];
+            document.getElementById('logoBox').classList.remove('hidden');
+            document.getElementById('serviceLogo').src = info.logo;
+            document.getElementById('serviceName').textContent = service;
+            document.getElementById('userInput').placeholder = `Enter your ${service} ID`;
+            document.getElementById('hintText').textContent = `Enter your ${service} ID you have hacked`;
+        }
+
+        function goToPayment() {
+            const id = document.getElementById('userInput').value;
+            if (!selectedService || !id) {
+                alert("Please select a service and enter ID.");
+                return;
+            }
+
+            const price = prices[selectedService].price;
+            const scanner = `scanner_${price}.png`;
+
+            document.getElementById('scannerBox').classList.remove('hidden');
+            document.getElementById('scannerImage').src = scanner;
+            document.getElementById('priceText').textContent = `Pay ₹${price} to continue`;
+        }
+    </script>
+</body>
+</html>
